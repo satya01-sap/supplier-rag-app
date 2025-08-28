@@ -258,7 +258,7 @@ module.exports = function (srv) {
         async function getAddresses() {
             const aAddresses = purchasingData.map(async (s) => {
                 return await prodcuct.send(
-                    'GET', `A_BusinessPartner('${s.Supplier}')/to_BusinessPartnerAddress?$select=CityName,Country,BusinessPartner`
+                    'GET', `A_BusinessPartner('${s.Supplier}')/to_BusinessPartnerAddress?$select=CityName,Country,BusinessPartner,FullName`
                 );
             });
 
@@ -344,6 +344,7 @@ module.exports = function (srv) {
 
             result.push({
                 Supplier: purchasing.Supplier,
+                SupplierName: oAddressText && oAddressText.length> 0 ? oAddressText[0]?.FullName : '',
                 Product: purchasing.Material,
                 ProductText: oProductText && oProductText.length> 0 ? oProductText[0]?.ProductDescription : '',
                 City: oAddressText && oAddressText.length> 0 ? oAddressText[0]?.CityName : '',
