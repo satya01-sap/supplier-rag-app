@@ -8,7 +8,7 @@ service SupplierServcie  @(requires: 'authenticated-user') {
 
     function ListSuppliers() returns array of String;
 
-    function getSuppliersList() returns array of String;
+    //function getSuppliersList() returns array of String;
 
     function fidSupplier(query: String(500)) returns array of String;
 

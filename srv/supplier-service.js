@@ -99,12 +99,31 @@ module.exports = function (srv) {
         return 'OK'
     })
 
-    srv.on('ListSuppliers', async(req, res) => {
-        console.log('List Suppliers')
-    })
+    // srv.on('ListSuppliers', async(req, res) => {
+    //     console.log('List Suppliers')
+    // })
 
-    this.on('getSuppliersList', async req => {
-         return await fetchSuppliersList();
+    this.on('ListSuppliers', async req => {
+         const fs = require('fs').promises;
+         const path = require('path');
+         const imagePath = path.join(__dirname, 'images', 'pngtree.jpg');
+
+         const imageBuffer = await fs.readFile(imagePath);
+         const base64Image = imageBuffer.toString('base64');
+         const mimeType = 'image/png'; 
+
+         const aSuppliers =  await fetchSuppliersList();
+
+          for (const supplier of aSuppliers) {
+
+            supplier.Logo = `data:${mimeType};base64,${base64Image}`
+            supplier.Status= 'Active'
+
+
+        }
+
+        return aSuppliers;
+
         
     });
 
