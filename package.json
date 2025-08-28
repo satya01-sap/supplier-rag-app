@@ -1,0 +1,73 @@
+{
+  "name": "supplier-rag-app",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@cap-js/hana": "^2",
+    "@sap-ai-sdk/foundation-models": "^1.18.0",
+    "@sap/cds": "^9",
+    "@sap/xssec": "^4",
+    "express": "^4",
+    "langchain": "^0.3.31"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@cap-js/cds-types": "^0.13.0",
+    "@cap-js/sqlite": "^2",
+    "@sap/cds-dk": ">=8"
+  },
+  "scripts": {
+    "start": "cds-serve"
+  },
+  "cds": {
+    "requires": {
+      "[production]": {
+        "db": "hana",
+        "auth": "xsuaa"
+      },
+      "destinations": true,
+      "[hybrid]": {
+        "db": "hana",
+        "auth": {
+          "passport": {
+            "strategy": "mocked",
+            "users": {
+              "JohnDole@tester.sap.com": {
+                "ID": "dummy.user@com",
+                "password": "initial"
+              }
+            }
+          }
+        },
+        "GenAIHubDestination": {
+          "kind": "rest",
+          "credentials": {
+            "destination": "GENERATIVE_AI_HUB",
+            "requestTimeout": "300000"
+          }
+        },
+        "PROD_AI_SRV": {
+          "kind": "odata-v2",
+          "credentials": {
+            "destination": "PROD_AI_SRV",
+            "requestTimeout": "300000",
+            "path": "API_PRODUCT_SRV/"
+          }
+        }
+      },
+      "PROD_AI_SRV": {
+        "kind": "odata-v2",
+        "credentials": {
+          "destination": "PROD_AI_SRV",
+          "requestTimeout": "300000",
+          "path": "API_PRODUCT_SRV/"
+        }
+      }
+    }
+  }
+}
