@@ -221,7 +221,7 @@ module.exports = function (srv) {
 
     const fetchSuppliersList = async () => {
 
-        const prodcuct = await cds.connect.to('PROD_AI_SRV') //use send method
+        const prodcuct = await cds.connect.to('S4DEMO_SRV') //use send method, PROD_AI_SRV
 
         prodcuct.path = 'API_PURCHASING_SOURCE_SRV'
 

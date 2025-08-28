@@ -51,19 +51,19 @@
             "requestTimeout": "300000"
           }
         },
-        "PROD_AI_SRV": {
+        "S4DEMO_SRV": {
           "kind": "odata-v2",
           "credentials": {
-            "destination": "PROD_AI_SRV",
+            "destination": "S4DEMO_SRV",
             "requestTimeout": "300000",
             "path": "API_PRODUCT_SRV/"
           }
         }
       },
-      "PROD_AI_SRV": {
+      "S4DEMO_SRV": {
         "kind": "odata-v2",
         "credentials": {
-          "destination": "PROD_AI_SRV",
+          "destination": "S4DEMO_SRV",
           "requestTimeout": "300000",
           "path": "API_PRODUCT_SRV/"
         }
