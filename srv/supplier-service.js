@@ -7,8 +7,8 @@ const { similaritySearchWithFilter } = require('../srv/healper/search-healper');
 module.exports = function (srv) {
 
 
-    srv.on('storeEmbiddings', async(req, res) => {
-        console.log('start storeEmbiddings....')
+    srv.on('storeEmbeddings', async(req, res) => {
+        console.log('start storeEmbeddings....')
 
         const { SuppliersEmbedding } = cds.entities('com.sst')
 
@@ -35,10 +35,11 @@ module.exports = function (srv) {
          let aSupplierData =  await fetchSuppliersList();
 
         for (const supplier of aSupplierData) {
-            const { Supplier, Product, ProductText, City, Country, Email, Phone, Rating } = supplier;
+            const { Supplier, SupplierName, Product, ProductText, City, Country, Email, Phone, Rating } = supplier;
 
             const content = `
                 Supplier: ${Supplier}
+                SupplierName : ${SupplierName}
                 Rating: ${Rating}
                 Address: ${City},${Country}
                 City: ${City}
@@ -51,6 +52,7 @@ module.exports = function (srv) {
 
             const metadata = {
                 Supplier: Supplier,
+                SupplierName,
                 Product : Product,
                 ProductText: ProductText,
                 City: City,
@@ -127,7 +129,7 @@ module.exports = function (srv) {
         
     });
 
-    srv.on('fidSupplier', async (req) => {
+    srv.on('findSuppliers', async (req) => {
         const query = req.data.query; // e.g., "Find Li-ion battery suppliers from China"
 
          const client =  new AzureOpenAiChatClient('gpt-4o', {
