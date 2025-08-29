@@ -4,7 +4,7 @@ service SupplierServcie  @(requires: 'authenticated-user') {
 
     entity Suppliers as projection on db.SuppliersEmbedding excluding { supplierEmbedding };
 
-    function storeEmbiddings() returns String(2);
+    function storeEmbeddings() returns String(2);
 
     function ListSuppliers() returns array of String;
 
