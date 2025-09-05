@@ -1,7 +1,7 @@
 _schema-version: 3.3.0
-ID: supplier-rag-app
+ID: supplier-rag-app_###
 version: 1.0.0
-description: "A simple CAP project."
+description: "Smart Supplier Service"
 parameters:
   enable-parallel-deployments: true
 build-parameters:
@@ -11,7 +11,7 @@ build-parameters:
         - npm ci
         - npx cds build --production
 modules:
-  - name: supplier-rag-app-srv
+  - name: supplier-rag-app-srv_###
     type: nodejs
     path: gen/srv
     parameters:
@@ -24,34 +24,34 @@ modules:
         properties:
           srv-url: ${default-url}
     requires:
-      - name: supplier-rag-app-db
-      - name: supplier-rag-app-auth
-      - name: supplier-rag-app-destination
+      - name: supplier-rag-app-db_###
+      - name: supplier-rag-app-auth_###
+      - name: supplier-rag-app-destination_###
 
-  - name: supplier-rag-app-db-deployer
+  - name: supplier-rag-app-db-deployer_###
     type: hdb
     path: gen/db
     parameters:
       buildpack: nodejs_buildpack
     requires:
-      - name: supplier-rag-app-db
+      - name: supplier-rag-app-db_###
 
 resources:
-  - name: supplier-rag-app-db
+  - name: supplier-rag-app-db_###
     type: com.sap.xs.hdi-container
     parameters:
       service: hana
       service-plan: hdi-shared
-  - name: supplier-rag-app-auth
+  - name: supplier-rag-app-auth_###
     type: org.cloudfoundry.managed-service
     parameters:
       service: xsuaa
       service-plan: application
       path: ./xs-security.json
       config:
-        xsappname: supplier-rag-app-${org}-${space}
+        xsappname: supplier-rag-app-###
         tenant-mode: dedicated
-  - name: supplier-rag-app-destination
+  - name: supplier-rag-app-destination_###
     type: org.cloudfoundry.managed-service
     parameters:
       service: destination
