@@ -196,28 +196,34 @@ module.exports = function (srv) {
             });
 
         // Step 3: Return results
-        let finalResults = [];
-        for (const result of similarityResults) {
+        let finalResults = [], textData = '';
+       for (const result of similarityResults) {
             finalResults.push(JSON.parse(result.SUPPLIERMETADATA.toString('utf8')))
+            textData =  result.SUPPLIERTEXT + '\n' + textData
         }
 
-        
-        const filteredResult = finalResults.filter(e => {
-        if (oFilter.Rating?.gte !== undefined && e.Rating < Number(oFilter.Rating.gte)) {
-                return false;
-            }
-
-            if (oFilter.Country && e.Country.toLowerCase() !== oFilter.Country.toLowerCase()) {
-                return false;
-            }
-
-            //more filter conditions here...
-
-            return true;
+         //. Step 4: Call LLM to format the result
+        const formatResult = await client.run({
+                messages: [
+                    {
+                    role: 'system',
+                    content: `You are an AI assistant Your task is to convert flat JSON object without nesting and just pack object inside the "Value" array.
+                    Please **do not** return your answer in any code block or markdown format. Just provide the raw, valid JSON object with no surrounding quotes or formatting. 
+                    `
+                    },
+                    {
+                    role: 'user',
+                    content: textData
+                    }
+                ]
         });
-        
 
-       return filteredResult;
+        console.log('formatResult', formatResult.getContent())
+
+        finalResults = JSON.parse(formatResult.getContent());
+
+       return finalResults;
+
     });
 
 
@@ -354,6 +360,7 @@ module.exports = function (srv) {
                 Email: oEmail && oEmail.length > 0 ? oEmail[0]?.EmailAddress : '',
                 Phone: oPhone && oPhone.length > 0 ? oPhone[0]?.PhoneNumber : '',
                 Rating: oRating && oRating.length > 0 ? oRating[0]?.BusinessPartnerRatingGrade : rating
+                
             })
         }
 
