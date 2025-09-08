@@ -12,25 +12,6 @@ module.exports = function (srv) {
 
         const { SuppliersEmbedding } = cds.entities('com.sst')
 
-        // const client =  new AzureOpenAiChatClient('gpt-4o', {
-        //     destinationName: 'GENERATIVE_AI_HUB'
-        // });
-
-        // const response = await client.run({
-        //         messages: [
-        //             {
-        //             role: 'system',
-        //             content: 'You are a friendly chatbot.'
-        //             },
-        //             {
-        //             role: 'user',
-        //             content: 'Where is the deepest place on earth located?'
-        //             }
-        //         ]
-        // });
-        // console.log(response.getContent());
-
-        //====================================================================================
          const docs = [];
          let aSupplierData =  await fetchSuppliersList();
 
@@ -48,6 +29,7 @@ module.exports = function (srv) {
                 ProductText: ${ProductText}
                 Email: ${Email}
                 Phone: ${Phone}
+                Status:'Active'
             `.trim();
 
             const metadata = {
@@ -101,18 +83,9 @@ module.exports = function (srv) {
         return 'OK'
     })
 
-    // srv.on('ListSuppliers', async(req, res) => {
-    //     console.log('List Suppliers')
-    // })
-
     this.on('ListSuppliers', async req => {
-         const fs = require('fs').promises;
-         const path = require('path');
-         const imagePath = path.join(__dirname, 'images', 'pngtree.jpg');
-
-         const imageBuffer = await fs.readFile(imagePath);
-         const base64Image = imageBuffer.toString('base64');
-         const mimeType = 'image/png'; 
+       
+        const { mimeType, base64Image } = await getLogo() 
 
          const aSuppliers =  await fetchSuppliersList();
 
@@ -125,7 +98,6 @@ module.exports = function (srv) {
         }
 
         return aSuppliers;
-
         
     });
 
@@ -221,6 +193,11 @@ module.exports = function (srv) {
         console.log('formatResult', formatResult.getContent())
 
         finalResults = JSON.parse(formatResult.getContent());
+
+        const {mimeType, base64Image} = await getLogo() 
+
+        //Attach logo
+        finalResults.Value.map( e => e.Logo = `data:${mimeType};base64,${base64Image}` )
 
        return finalResults;
 
@@ -359,13 +336,29 @@ module.exports = function (srv) {
                 Country: oAddressText && oAddressText.length > 0 ? oAddressText[0]?.Country : '',
                 Email: oEmail && oEmail.length > 0 ? oEmail[0]?.EmailAddress : '',
                 Phone: oPhone && oPhone.length > 0 ? oPhone[0]?.PhoneNumber : '',
-                Rating: oRating && oRating.length > 0 ? oRating[0]?.BusinessPartnerRatingGrade : rating
+                Rating: oRating && oRating.length > 0 ? oRating[0]?.BusinessPartnerRatingGrade : rating,
+                Status:'Active'
                 
             })
         }
 
         return result;
     }
+
+    getLogo = async () => {
+        const fs = require('fs').promises;
+         const path = require('path');
+         const imagePath = path.join(__dirname, 'images', 'pngtree.jpg');
+
+         const imageBuffer = await fs.readFile(imagePath);
+         const base64Image = imageBuffer.toString('base64');
+         const mimeType = 'image/png'; 
+
+         return {
+            mimeType,
+            base64Image
+         }
+    } 
 
 
 } 
