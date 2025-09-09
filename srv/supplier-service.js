@@ -179,7 +179,7 @@ module.exports = function (srv) {
                 messages: [
                     {
                     role: 'system',
-                    content: `You are an AI assistant Your task is to convert flat JSON object without nesting and just pack object inside the "Value" array.
+                    content: `You are an AI assistant Your task is to convert flat JSON object without nesting and just return array of objects.
                     Please **do not** return your answer in any code block or markdown format. Just provide the raw, valid JSON object with no surrounding quotes or formatting. 
                     `
                     },
@@ -197,7 +197,7 @@ module.exports = function (srv) {
         const {mimeType, base64Image} = await getLogo() 
 
         //Attach logo
-        finalResults.Value.map( e => e.Logo = `data:${mimeType};base64,${base64Image}` )
+        finalResults.map( e => e.Logo = `data:${mimeType};base64,${base64Image}` )
 
        return finalResults;
 

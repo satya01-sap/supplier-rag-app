@@ -1,22 +1,27 @@
 @hostname=localhost:4004
+@domain=apjextabapsubdomain
+@clientid=sb-....
+@secret=74...
+# Define the token variable
+@token=ey....
 
 ### Request 1 - Metadata
 GET http://{{hostname}}/odata/v4/supplier-servcie/$metadata
-Authorization: Bearer <token>
+Authorization: Bearer {{token}}
 
 ### Request 2 - Create Embedding
 GET http://{{hostname}}/odata/v4/supplier-servcie/storeEmbeddings()
-Authorization: Bearer <token>
+Authorization: Bearer {{token}}
 
 ### Request 3 - User Query
 GET http://{{hostname}}/odata/v4/supplier-servcie/findSuppliers(query='Find the best suppliers in Chicago, US')
-Authorization: Bearer <token>
+Authorization: Bearer {{token}}
 
 ### Request 4 - Validate Result
 GET http://{{hostname}}/odata/v4/supplier-servcie/ListSuppliers()
-Authorization: Bearer <token>
+Authorization: Bearer {{token}}
 
 
 ###
-GET https://apjextabapsubdomain.authentication.eu10.hana.ondemand.com/oauth/token?grant_type=client_credentials
-Authorization: Basic user:pass
+GET https://{{domain}}.authentication.eu10.hana.ondemand.com/oauth/token?grant_type=client_credentials
+Authorization: Basic {{clientid}}:{{secret}}
