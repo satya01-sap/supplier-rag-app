@@ -54,7 +54,7 @@ module.exports = function (srv) {
 
             // Initialize the embedding client
             const embeddingClient = new AzureOpenAiEmbeddingClient(
-                {modelName: 'text-embedding-ada-002'},
+                {modelName: 'text-embedding-3-large'}, //text-embedding-ada-002
                 {destinationName: 'GENERATIVE_AI_HUB'}
             );
 
@@ -147,7 +147,7 @@ module.exports = function (srv) {
 
         // Initialize the embedding client
         const embeddingClient = new AzureOpenAiEmbeddingClient(
-            { modelName: 'text-embedding-ada-002' },
+            { modelName: 'text-embedding-3-large' }, //text-embedding-ada-002
             { destinationName: 'GENERATIVE_AI_HUB' }
         );
 
