@@ -53,10 +53,10 @@ module.exports = function (srv) {
         }
 
          //=========================================================================================
-         // Begin of: Insert you code
+         // Initialize the embedding client and get the embedding 
          //=========================================================================================
 
-        
+            /* Inser your code here */
 
         //EDN   
         
@@ -94,6 +94,7 @@ module.exports = function (srv) {
         // Block 1: Initialize the azure client
         //====================================================================================
         
+         /* Inser your code here */
 
         //END 
 
@@ -101,7 +102,8 @@ module.exports = function (srv) {
         // Block 2: Write the system prompt to get the filters from user query 
         //====================================================================================
 
-        
+         /* Inser your code here */
+
         //END 
        
 
@@ -113,6 +115,7 @@ module.exports = function (srv) {
         // Block 3:  Initialize the embedding client and get the embeddings
         //====================================================================================
 
+         /* Inser your code here */
        
         //END
 
@@ -120,7 +123,7 @@ module.exports = function (srv) {
         // Block 4:  Perform similarity search
         //====================================================================================
 
-       
+        /* Inser your code here */
 
         //END
 
@@ -134,6 +137,7 @@ module.exports = function (srv) {
         // Block 5:  Call LLM to format the result
         //====================================================================================
 
+         /* Inser your code here */
 
         //END
 
@@ -153,14 +157,13 @@ module.exports = function (srv) {
 
     const fetchSuppliersList = async () => {
 
-        const oS4Connection = await cds.connect.to('S4DEMO_SRV') //use send method, PROD_AI_SRV
+        //=========================================================================================
+        // connect to the S4 destination
+        //=========================================================================================
 
-        oS4Connection.path = 'API_PURCHASING_SOURCE_SRV'
+            /* Inser your code here */
 
-        const aMSData = await oS4Connection.send(
-                   'GET', `A_PurchasingSource?$top=100&$select=Material,Supplier`
-                );
-      
+        //EDN        
       
         // Remove duplicates         
         const purchasingData = [...new Map(aMSData.map(item => [item.Material, item])).values()]
