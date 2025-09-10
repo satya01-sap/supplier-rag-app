@@ -6,7 +6,7 @@ entity SuppliersEmbedding : managed, cuid {
        supplierText : String;
        supplierMetadata : LargeString; 
        supplierRating: Decimal(3, 2);
-       supplierEmbedding: Vector(3072);
+      //Add property for vectors
 }
 
 
