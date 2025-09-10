@@ -1,9 +1,14 @@
 @hostname=localhost:4004
-@domain=apjextabapsubdomain
-@clientid=sb-....
-@secret=74...
+@domain=<domain>.authentication.ap10.hana.ondemand.com
+@clientid=sb-supplier-rag-app-dev!t82402
+@secret=39d9302c-...
 # Define the token variable
-@token=ey....
+@token=eyJhbGciOiJSU.....
+
+
+### Get the auth token
+GET https://{{domain}}/oauth/token?grant_type=client_credentials
+Authorization: Basic {{clientid}}:{{secret}}
 
 ### Request 1 - Metadata
 GET http://{{hostname}}/odata/v4/supplier-servcie/$metadata
@@ -20,8 +25,3 @@ Authorization: Bearer {{token}}
 ### Request 4 - Validate Result
 GET http://{{hostname}}/odata/v4/supplier-servcie/ListSuppliers()
 Authorization: Bearer {{token}}
-
-
-###
-GET https://{{domain}}.authentication.eu10.hana.ondemand.com/oauth/token?grant_type=client_credentials
-Authorization: Basic {{clientid}}:{{secret}}
