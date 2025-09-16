@@ -165,8 +165,8 @@ module.exports = function (srv) {
 
         //EDN        
       
-        // Remove duplicates         
-        const purchasingData = [...new Map(aMSData.map(item => [item.Material, item])).values()]
+        // Remove duplicate Suppliers         
+        const purchasingData = [...new Map(aMSData.map(item => [item.Supplier, item])).values()]
 
          oS4Connection.path = 'API_PRODUCT_SRV'
 
@@ -197,7 +197,6 @@ module.exports = function (srv) {
             });
 
             let aAddressesData = await Promise.all(aAddresses);
-            //console.log(aAddressesData);
             return aAddressesData;
         }
 
@@ -214,7 +213,6 @@ module.exports = function (srv) {
             });
 
             let aEmailData = await Promise.all(aEmail);
-            console.log(aEmailData);
             return aEmailData;
         }
 
@@ -247,7 +245,6 @@ module.exports = function (srv) {
             });
 
             let aPhoneNumberData = await Promise.all(aPhoneNumber);
-            //console.log(aEmailData);
             return aPhoneNumberData;
         }
 
