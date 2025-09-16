@@ -6,7 +6,7 @@ service SupplierServcie  @(requires: 'authenticated-user') {
 
     function storeEmbeddings() returns String(2);
 
-    function ListSuppliers() returns array of String;
+    function listSuppliers() returns array of String;
 
     function findSuppliers(query: String(500)) returns array of String;
 

@@ -68,7 +68,7 @@ module.exports = function (srv) {
         return 'OK'
     })
 
-    this.on('ListSuppliers', async req => {
+    this.on('listSuppliers', async req => {
        
         const { mimeType, base64Image } = await getLogo() 
 
@@ -254,6 +254,23 @@ module.exports = function (srv) {
         const aPhoneNumberData = await getPhoneNumber();
         console.log('Phone number data', aPhoneNumberData.length);
 
+        oS4Connection.path = 'API_COUNTRY_SRV' 
+
+        //Fetch country full name
+        async function getCountryFulllName() {
+            const aCountryFullName = aAddressesData.map(async (s, i) => {
+               return await oS4Connection.send(
+                    'GET', `A_CountryText?$filter=Country eq '${s[0].Country}' and Language eq 'EN'`
+                );
+            });
+
+            let aCountryFullNameData = await Promise.all(aCountryFullName);
+            return aCountryFullNameData;
+        }
+
+        const aCountryFullNameData = await getCountryFulllName();
+        console.log('Country Full Name data', aCountryFullNameData.length);
+
         let result = []
         
         for (const purchasing of purchasingData) {
@@ -274,6 +291,12 @@ module.exports = function (srv) {
                 if ( v[0]?.BusinessPartner === purchasing.Supplier) return v[0]
             })
 
+            let sCountryCode = oAddressText && oAddressText.length > 0 ? oAddressText[0]?.Country : ''
+
+            const oCountryFullName = aCountryFullNameData.find ( (v, i)=> {
+                if ( v[0]?.Country === sCountryCode) return v[0]
+            })
+
             const rating = parseFloat((Math.random() * 4 + 1).toFixed(1)); //Math.floor(Math.random() * 5) + 1;
 
             result.push({
@@ -282,7 +305,7 @@ module.exports = function (srv) {
                 Product: purchasing.Material,
                 ProductText: oProductText && oProductText.length> 0 ? oProductText[0]?.ProductDescription : '',
                 City: oAddressText && oAddressText.length> 0 ? oAddressText[0]?.CityName : '',
-                Country: oAddressText && oAddressText.length > 0 ? oAddressText[0]?.Country : '',
+                Country: oCountryFullName && oCountryFullName.length > 0 ? oCountryFullName[0].CountryName : '',
                 Email: oEmail && oEmail.length > 0 ? oEmail[0]?.EmailAddress : '',
                 Phone: oPhone && oPhone.length > 0 ? oPhone[0]?.PhoneNumber : '',
                 Rating: oRating && oRating.length > 0 ? oRating[0]?.BusinessPartnerRatingGrade : rating,
