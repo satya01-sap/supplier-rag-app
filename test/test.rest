@@ -23,5 +23,5 @@ GET http://{{hostname}}/odata/v4/supplier-servcie/findSuppliers(query='Find the 
 Authorization: Bearer {{token}}
 
 ### Request 4 - Validate Result
-GET http://{{hostname}}/odata/v4/supplier-servcie/ListSuppliers()
+GET http://{{hostname}}/odata/v4/supplier-servcie/listSuppliers()
 Authorization: Bearer {{token}}
